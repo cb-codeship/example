@@ -1,0 +1,3 @@
+- name: Run Jenkinsfile
+  service: jenkins
+  command: -f /workspace
