@@ -2,4 +2,4 @@ jenkins:
   image: cloudbees/codeship-jenkinsfile-step:latest
   volumes:
     - .:/workspace
-    - jenkins.yaml:/jenkins/config.yaml.d/jenkins.yaml
+    - jenkins.yml:/jenkins/config.yaml.d/jenkins.yml
