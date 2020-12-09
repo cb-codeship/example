@@ -12,13 +12,6 @@ pipeline {
             }
         }
         stage("build") {
-            agent {
-                kubernetes {
-                    label 'mavenPod'
-                    defaultContainer "maven"
-                    yaml mavenPod
-                }
-            }
             steps {
 
                 // git url: 'https://github.com/pipeline-template-apps/maven-executable-jar-example.git', branch: 'master'
