@@ -1,5 +1,5 @@
 jenkins:
-  image: cloudbees/codeship-jenkinsfile-step:latest
+  image: cloudbees/codeship-jenkinsfile-step:maven-0.1-alpha-5
   volumes:
     - .:/workspace
     - jenkins.yml:/jenkins/config.yaml.d/jenkins.yml
