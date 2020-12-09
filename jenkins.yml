@@ -1,3 +1,39 @@
+jenkins:
+  systemMessage: "This is a Jenkins configuration for the demo"
+  slaveAgentPort: 50000
+  labelString: "controller"
+
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: ${DOCKER_HOST}
+        templates:
+          - labelString: "docker-agent"
+            dockerTemplateBase:
+              image: "jenkins/agent:4.3-8"
+            remoteFs: "/home/jenkins/agent"
+            connector:
+              attach:
+                user: "jenkins"
+            instanceCapStr: "2"
+            retentionStrategy:
+              idleMinutes: 1
+          - name: "Jenkins SSH Build Agent"
+            labelString: "docker-ssh-build-agent"
+            dockerTemplateBase:
+              image: "jenkins/ssh-agent"
+            remoteFs: "/home/jenkins/agent"
+            connector:
+              ssh:
+                sshKeyStrategy:
+                  injectSSHKey:
+                    user: "root"
+            instanceCapStr: "2"
+            retentionStrategy:
+              idleMinutes: 1
+
 unclassified:
   globalLibraries:
     libraries:

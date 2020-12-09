@@ -14,12 +14,12 @@ pipeline {
 
                 // git url: 'https://github.com/pipeline-template-apps/maven-executable-jar-example.git', branch: 'master'
                 // sh "ls -l"
-             //   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
-                  //  sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
-                   echo "${MVN_SETTINGS}"
-                   // sh "${MVN_COMMAND} -s settings.xml"
+                //   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
+                //  sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
+                echo "${MVN_SETTINGS}"
+                // sh "${MVN_COMMAND} -s settings.xml"
 
-            //    }
+                //    }
                 stash includes: '**/*', name: 'app'
 
 
@@ -29,7 +29,7 @@ pipeline {
         stage("Run parallel sequences") {
             parallel {
                 stage("Test Firefox") {
-                  //  agent { label: "docker" }
+                    //  agent { label: "docker" }
                     options {
                         skipDefaultCheckout(true)
                     }
@@ -78,6 +78,40 @@ pipeline {
                             }
                         }
                     }
+                }
+            }
+        }
+
+        stage("Docker") {
+            when {
+                branch 'master'
+            }
+
+            options {
+                skipDefaultCheckout(true)
+            }
+            steps {
+                sh "echo docker build"
+                container(name: 'kaniko', shell: '/busybox/sh') {
+                    sh 'ls -lR'
+                    unstash 'app'
+                    withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
+                        sh '''#!/busybox/sh
+              /kaniko/executor  --dockerfile $(pwd)/Dockerfile --insecure --skip-tls-verify --cache=false  --context $(pwd) --destination caternberg/maven-executable-example:BUILD_NUMBER-${BUILD_NUMBER}
+          '''
+                    }
+                }
+            }
+            post {
+                success {
+                    echo "Docker Build Successfully"
+                    //Slack notification....
+                    //Jira update
+                }
+                failure {
+                    echo "Docker Build Failed"
+                    //Slack notification....
+                    //Jira update
                 }
             }
         }

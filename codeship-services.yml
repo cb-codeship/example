@@ -1,3 +1,10 @@
+jenkinsfileRunner:
+  build:
+    image: jenkinsfile-runner
+    dockerfile_path: Dockerfile
+  volumes:
+    - .:/workspace
+  add_docker: true
 jenkins:
   image: cloudbees/codeship-jenkinsfile-step:maven-0.1-alpha-5
   volumes:
