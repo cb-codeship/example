@@ -1,7 +1,5 @@
-def mavenPod = libraryResource 'podtemplates/podTemplate-maven.yaml'
-def kanikoPod = libraryResource 'podtemplates/podTemplate-kaniko.yaml'
 def testScript = libraryResource 'scripts/script.sh'
-//def MVN_SETTINGS = libraryResource 'maven-conf/settings.xml'
+def MVN_SETTINGS = libraryResource 'maven-conf/settings.xml'
 def MVN_COMMAND = 'mvn -q clean package -Dembedd-dependencies'
 pipeline {
     agent any
@@ -18,7 +16,7 @@ pipeline {
                 // sh "ls -l"
              //   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
                   //  sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
-                    sh "${MVN_COMMAND} "
+                    sh "${MVN_COMMAND} -s ${MVN_SETTINGS}"
             //    }
                 stash includes: '**/*', name: 'app'
 
