@@ -16,7 +16,8 @@ pipeline {
                 // sh "ls -l"
              //   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
                   //  sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
-                    sh "${MVN_COMMAND} -s ${MVN_SETTINGS}"
+                   echo ${MVN_SETTINGS}
+                    sh "${MVN_COMMAND} -s settings.xml"
             //    }
                 stash includes: '**/*', name: 'app'
 
