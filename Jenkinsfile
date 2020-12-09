@@ -1,6 +1,6 @@
 def testScript = libraryResource 'scripts/script.sh'
 def MVN_SETTINGS = libraryResource 'maven-conf/settings.xml'
-def MVN_COMMAND = 'mvn -q clean deploy -Dembedd-dependencies'
+def MVN_COMMAND = 'mvn -e clean deploy -Dembedd-dependencies'
 pipeline {
     agent any
     stages {
