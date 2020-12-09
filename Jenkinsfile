@@ -4,7 +4,7 @@ def testScript = libraryResource 'scripts/script.sh'
 //def MVN_SETTINGS = libraryResource 'maven-conf/settings.xml'
 def MVN_COMMAND_PACKAGE = 'mvn -q clean package -Dembedd-dependencies'
 pipeline {
-    agent { label: "" }
+    agent any
     stages {
         stage('Print message') {
             steps {
