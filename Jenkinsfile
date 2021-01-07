@@ -39,7 +39,7 @@ pipeline {
                                 timeout(time: 3, unit: 'MINUTES') {
                                     retry(5) {
                                         //call external shell script
-                                        sh "${testScript}"
+                                        sh ${testScript}
                                     }
                                 }
                             }
@@ -66,7 +66,7 @@ pipeline {
                                 timeout(time: 3, unit: 'MINUTES') {
                                     retry(5) {
                                         //call external shell script
-                                        sh "${testScript}"
+                                        sh "echo ${testScript}"
                                     }
                                 }
                             }
@@ -90,15 +90,8 @@ pipeline {
                 skipDefaultCheckout(true)
             }
             steps {
-                sh "echo docker build"
-               // container(name: 'kaniko', shell: '/busybox/sh') {
-                    unstash 'app'
-                    withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
-                        sh '''#!/busybox/sh
-              /kaniko/executor  --dockerfile $(pwd)/Dockerfile-app --insecure --skip-tls-verify --cache=false  --context $(pwd) --destination caternberg/maven-executable-example:BUILD_NUMBER-${BUILD_NUMBER}
-          '''
-                    }
-               // }
+                sh "docker version"
+
             }
             post {
                 success {
