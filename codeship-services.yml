@@ -10,3 +10,4 @@ jenkins:
   volumes:
     - .:/workspace
     - jenkins.yml:/jenkins/config.yaml.d/jenkins.yml
+  add_docker: true
