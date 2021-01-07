@@ -77,7 +77,7 @@ pipeline {
             steps {
               //  sh "docker version"
                sh """ docker run \
-     -v .:/workspace \
+     -v $(pwd):/workspace \
     gcr.io/kaniko-project/executor:latest \
     --dockerfile Dockerfile \
     --destination "caternberg/codeship-kaniko-test:0.0.1" \
