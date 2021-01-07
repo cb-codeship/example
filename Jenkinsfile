@@ -15,7 +15,7 @@ pipeline {
                 // git url: 'https://github.com/pipeline-template-apps/maven-executable-jar-example.git', branch: 'master'
                 // sh "ls -l"
                 //   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
-                //  sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
+                sh "${MVN_COMMAND_DEPLOY} -s ${MAVEN_SETTINGS_XML}"
                 echo "${MVN_SETTINGS}"
                 // sh "${MVN_COMMAND} -s settings.xml"
 
@@ -92,15 +92,14 @@ pipeline {
             }
             steps {
                 sh "echo docker build"
-                container(name: 'kaniko', shell: '/busybox/sh') {
-                    sh 'ls -lR'
+               // container(name: 'kaniko', shell: '/busybox/sh') {
                     unstash 'app'
                     withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
                         sh '''#!/busybox/sh
-              /kaniko/executor  --dockerfile $(pwd)/Dockerfile --insecure --skip-tls-verify --cache=false  --context $(pwd) --destination caternberg/maven-executable-example:BUILD_NUMBER-${BUILD_NUMBER}
+              /kaniko/executor  --dockerfile $(pwd)/Dockerfile-app --insecure --skip-tls-verify --cache=false  --context $(pwd) --destination caternberg/maven-executable-example:BUILD_NUMBER-${BUILD_NUMBER}
           '''
                     }
-                }
+               // }
             }
             post {
                 success {
