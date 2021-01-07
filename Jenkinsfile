@@ -17,7 +17,7 @@ pipeline {
 
                 //echo "${MVN_SETTINGS}"
                 sh "${MVN_COMMAND} -s settings.xml"
-                sh "echo ${testScript}"
+                sh "cat ${testScript}"
                 //    }
                 stash includes: '**/*', name: 'app'
 
