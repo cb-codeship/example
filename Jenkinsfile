@@ -90,8 +90,14 @@ pipeline {
                 skipDefaultCheckout(true)
             }
             steps {
-                sh "docker version"
-
+              //  sh "docker version"
+               sh """ docker run \
+     -v .:/workspace \
+    gcr.io/kaniko-project/executor:latest \
+    --dockerfile Dockerfile \
+    --destination "caternberg/$IMAGE_NAME:$TAG" \
+    --context dir:///workspace/
+    """
             }
             post {
                 success {
