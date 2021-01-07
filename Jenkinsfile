@@ -17,7 +17,6 @@ pipeline {
 
                 //echo "${MVN_SETTINGS}"
                 sh "${MVN_COMMAND} -s settings.xml"
-                sh label: 'script', returnStdout: true, script: """${testScript}"""
                 //    }
                 stash includes: '**/*', name: 'app'
 
@@ -35,19 +34,12 @@ pipeline {
                     stages {
                         stage("prepare test") {
                             steps {
-                                sh "echo TODO test prepare FireFox...."
                                 timeout(time: 3, unit: 'MINUTES') {
                                     retry(5) {
                                         //call external shell script
-                                        sh "echo ${testScript}"
+                                        sh label: 'script', returnStdout: true, script: """${testScript}"""
                                     }
                                 }
-                            }
-                        }
-                        stage("run test") {
-                            steps {
-                                sh "echo TODO test FireFox"
-
                             }
                         }
                     }
@@ -62,21 +54,14 @@ pipeline {
                         stage("prepare test") {
                             steps {
                                 unstash 'app'
-                                sh "echo TODO test prepare Chrome...."
                                 timeout(time: 3, unit: 'MINUTES') {
                                     retry(5) {
-                                        //call external shell script
-                                        sh "echo ${testScript}"
+                                        sh label: 'script', returnStdout: true, script: """${testScript}"""
                                     }
                                 }
                             }
                         }
-                        stage("run test") {
-                            steps {
-                                sh "echo TODO test Chrome"
-                            }
-                        }
-                    }
+                     }
                 }
             }
         }
@@ -95,7 +80,7 @@ pipeline {
      -v .:/workspace \
     gcr.io/kaniko-project/executor:latest \
     --dockerfile Dockerfile \
-    --destination "caternberg/$IMAGE_NAME:$TAG" \
+    --destination "caternberg/codeship-kaniko-test:0.0.1" \
     --context dir:///workspace/
     """
             }
