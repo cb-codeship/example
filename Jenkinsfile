@@ -39,7 +39,7 @@ pipeline {
                                 timeout(time: 3, unit: 'MINUTES') {
                                     retry(5) {
                                         //call external shell script
-                                        sh ${testScript}
+                                        sh "echo ${testScript}
                                     }
                                 }
                             }
