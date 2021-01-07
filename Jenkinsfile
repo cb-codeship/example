@@ -1,5 +1,5 @@
 def testScript = libraryResource 'scripts/script.sh'
-def MVN_COMMAND = 'mvn -e clean deploy -Dembedd-dependencies'
+def MVN_COMMAND = 'mvn -q -e clean deploy -Dembedd-dependencies'
 pipeline {
     agent any
     stages {
